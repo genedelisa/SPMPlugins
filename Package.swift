@@ -35,6 +35,37 @@ let package = Package(
 
     ],
     targets: [
+        
+        // Sun's plugins
+        .plugin(
+          name: "Format Source Code",
+          capability: .command(
+            intent: .sourceCodeFormatting(),
+            permissions: [
+              .writeToPackageDirectory(reason: "This command formats the Swift source files")
+            ]
+          ),
+          dependencies: [
+            .product(name: "swift-format", package: "swift-format")
+          ],
+          path: "Plugins/FormatPlugin"
+        ),
+        
+        .plugin(
+          name: "Lint Source Code",
+          capability: .command(
+            intent: .custom(
+              verb: "lint-source-code",
+              description: "Lint source code for a specified target."
+            )
+          ),
+          dependencies: [
+            .product(name: "swift-format", package: "swift-format")
+          ],
+          path: "Plugins/LintPlugin"
+        ),
+        
+        // from abertelrud
         .plugin(
             name: "Reformat Source Code",
             capability: .command(
